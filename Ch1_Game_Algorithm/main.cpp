@@ -139,44 +139,41 @@ int main()
 		{
 			monsters.emplace_back(sx, sy, path);
 		}
+
+		//direction 숫자를 받아와서 GoToXY 좌표를 변경해보시오
+
+		for (int i = 0; i < monsters.size(); i++)
+		{
+			Monster& monster = monsters[i];
+
+			if (monster.step >= monster.direction.size()) continue;
+
+
+			// pre_x, pre_Y 이전 위치값 저장. "  " 출력해서 잔상 제거
+			// std::cout << "  ";
+			// 잔상이 남는 현상 해결
+
+			GoToXY(monster.prev_x, monster.prev_y);
+			std::cout << "  ";
+
+			int dir = monster.direction[monster.step];
+			monster.y += dy[dir];
+			monster.x += dx[dir];
+			monster.prev_x = monster.x;
+			monster.prev_y = monster.y;
+			monster.step++;
+
+
+			GoToXY(monster.x, monster.y);
+
+			std::cout << "○";
+
+			Sleep(500);
+		}
+
 	}
+
 	
-	GoToXY(sx, sy);
-
-
-	int prev_x = sx;
-	int prev_y = sy;
-
-	//direction 숫자를 받아와서 GoToXY 좌표를 변경해보시오
-
-	for (int i = 0; i < monsters.size(); i++)
-	{
-		Monster& monster = monsters[i];
-		
-		if (monster.step >= monster.direction.size()) continue;
-
-		
-		// pre_x, pre_Y 이전 위치값 저장. "  " 출력해서 잔상 제거
-		// std::cout << "  ";
-		// 잔상이 남는 현상 해결
-
-		GoToXY(monster.prev_x, monster.prev_y);
-		std::cout << "  ";
-
-		int dir = monster.direction[monster.step];
-		monster.y += dy[dir];
-		monster.x += dx[dir];
-		monster.prev_x = monster.x;
-		monster.prev_y = monster.y;
-		monster.step++;
-
-
-		GoToXY(monster.x, monster.y);
-
-		std::cout << "○";
-
-		Sleep(500);
-	}
 
 #pragma endregion
 

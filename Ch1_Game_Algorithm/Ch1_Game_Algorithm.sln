@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34003.232
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ch1_Game_Algorithm", "Ch1_Game_Algorithm.vcxproj", "{9314F8A9-3310-49E1-81B9-454B0C31002B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ch2_Basic_Sorting", "..\Ch2_Basic_Sorting\Ch2_Basic_Sorting.vcxproj", "{7EBB8FA3-3C71-4409-8277-104AFA5B9D9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{9314F8A9-3310-49E1-81B9-454B0C31002B}.Release|x64.Build.0 = Release|x64
 		{9314F8A9-3310-49E1-81B9-454B0C31002B}.Release|x86.ActiveCfg = Release|Win32
 		{9314F8A9-3310-49E1-81B9-454B0C31002B}.Release|x86.Build.0 = Release|Win32
+		{7EBB8FA3-3C71-4409-8277-104AFA5B9D9B}.Debug|x64.ActiveCfg = Debug|x64
+		{7EBB8FA3-3C71-4409-8277-104AFA5B9D9B}.Debug|x64.Build.0 = Debug|x64
+		{7EBB8FA3-3C71-4409-8277-104AFA5B9D9B}.Debug|x86.ActiveCfg = Debug|Win32
+		{7EBB8FA3-3C71-4409-8277-104AFA5B9D9B}.Debug|x86.Build.0 = Debug|Win32
+		{7EBB8FA3-3C71-4409-8277-104AFA5B9D9B}.Release|x64.ActiveCfg = Release|x64
+		{7EBB8FA3-3C71-4409-8277-104AFA5B9D9B}.Release|x64.Build.0 = Release|x64
+		{7EBB8FA3-3C71-4409-8277-104AFA5B9D9B}.Release|x86.ActiveCfg = Release|Win32
+		{7EBB8FA3-3C71-4409-8277-104AFA5B9D9B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
