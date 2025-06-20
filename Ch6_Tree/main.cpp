@@ -43,7 +43,24 @@
 	단점 : 트리가 한 쪽으로 편향된 경우 O(n) 시간만큼 걸린다.
 */
 
-template<typename T1, typename T2>
+/*
+	트리 자료구조의 용어
+	노드: (값(value), 왼쪽 노드 주소, 오른쪽 노드 주소) 트리의 기본 요소를 저장하는 데이터 단위
+	부모 노드 : 하위의 노드와 직접 연결된 노드
+	자식 노드 : 부모 노드의 하위에 직접 연결된 노드
+	루트 노드 : 트리의 최상위에 있는 노드(부모가 없음)
+	조상 노드 : 특정 노드에서 루트까지의 경로에 있는 모든 노드들
+	후손 노드 : 특정 노드의 모든 자식들을 포함한 노드들
+
+	- 알고리즘 트리 코드 구현 시 사용되는 용어 - 
+	레벨(level) : 루트로부터의 거리를 뜻한다. 루트는 0을 반환한다.
+	높이		: 트리에서 가장 깊은 레벨을 뜻한다.
+	깊이		: 특정 노드에서 루트까지의 길이를 뜻한다.
+	서브 트리	: 트리 내부에 후손들로 구성된 또다른 트리.
+
+*/
+
+//template<typename T1, typename T2>
 struct Node
 {
 	int value;
@@ -153,6 +170,75 @@ private:
 
 	}
 
+	Node* findMin(Node* node)
+	{
+		if (node == nullptr || node->leftNode == nullptr)
+		{
+			return node;
+		}
+
+		return findMin(node->leftNode);
+	}
+
+	Node* findMax(Node* node)
+	{
+		if (node == nullptr || node->rightNode == nullptr)
+		{
+			return node;
+		}
+
+		return findMax(node->rightNode);
+	}
+
+	Node* deleteNode(Node* node, int target) // 삭제. 데이터를 찾은 다음에, 있으면 지운다.
+	{
+		if (node == nullptr) { return nullptr; }
+
+
+		if (node->value > target) // 왼쪽 노드로 이동
+		{
+			node->leftNode = deleteNode(node->leftNode, target);
+		}
+		else if (node->value < target) // 오른쪽 노드로 이동
+		{
+			node->rightNode = deleteNode(node->rightNode, target);
+		}
+		else // 지울 노드를 찾았을 때, 노드를 삭제
+		{
+			// 찾았다. 삭제한다.
+			/*if (node->leftNode == nullptr && node->rightNode == nullptr);
+			if (node->leftNode == nullptr);
+			if (node->rightNode == nullptr);*/
+
+			if (node->leftNode == nullptr || node->rightNode == nullptr)
+			{
+				Node* temp = node->leftNode != nullptr ? node->leftNode : node->rightNode; // 왼쪽, 오른쪽 체크
+
+				if (temp == nullptr) // 자식이 없는 경우
+				{
+					temp = node;
+					node = nullptr;
+				}
+				else
+				{
+					node = temp;
+				}
+
+			}
+			else // 자식이 둘인 경우
+			{
+				// 오른쪽에서 가장 작은 값을 찾겠다. findMin()
+
+				Node* temp = findMin(node->rightNode);
+				node->value = temp->value;
+				node->rightNode = deleteNode(node->rightNode, temp->value);
+			}
+		}	
+
+		return node;
+
+	}
+
 	void inOrder(Node* node)
 	{
 		if (node == nullptr) { return; }
@@ -180,6 +266,10 @@ public:
 		inOrder(root);			
 	}
 
+	void DeleteNode(int value)
+	{
+		root = deleteNode(root, value);
+	}
 
 };
 	// std::cout << "\n이진 검색 트리 데이터 입력 예시" BST bst bst.insert(4,3,5,1,2,6)
@@ -204,4 +294,9 @@ int main()
 	bst.insert(2);
 	bst.insert(6);
 	bst.inOrder();
+
+	std::cout << "\n데이터 삭제" << std::endl;
+	bst.DeleteNode(4);
+	bst.inOrder();
+
 }
