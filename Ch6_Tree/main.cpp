@@ -216,12 +216,15 @@ private:
 
 				if (temp == nullptr) // 자식이 없는 경우
 				{
-					temp = node;
-					node = nullptr;
+					temp = node;	// 지우고 싶은 노드 임시 저장 ( 지워야할 메모리를 가리키고 있다 )
+					node = nullptr; // 지우고 싶은 노드를 null 가리키도록 수정
+					delete temp;	// 임시 보관한 주소를 지우기
 				}
 				else
 				{
-					node = temp;
+					Node* nodeToDelete = node;	// 지울 노드를 잠시 지정할 변수 선언
+					node = temp;				// 1개만 있는 자식(temp)를 지워야할 노드(node) 위치로 이돈
+					delete nodeToDelete;		// 지워야할 노드(nodeToDelete) - 메모리를 해제한다.
 				}
 
 			}
@@ -271,6 +274,11 @@ public:
 		root = deleteNode(root, value);
 	}
 
+	void ReturnRoot()
+	{
+		std::cout << "\n루트에 저장된 값 : " << root->value << std::endl;
+	}
+
 };
 	// std::cout << "\n이진 검색 트리 데이터 입력 예시" BST bst bst.insert(4,3,5,1,2,6)
 
@@ -298,5 +306,7 @@ int main()
 	std::cout << "\n데이터 삭제" << std::endl;
 	bst.DeleteNode(4);
 	bst.inOrder();
+
+	bst.ReturnRoot();
 
 }
