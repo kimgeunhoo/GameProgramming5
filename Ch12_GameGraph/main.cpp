@@ -162,12 +162,13 @@ public:
 							processed[neighbor] = true;
 						}
 					}
+					if (!nextLevel.empty())
+					{
+						levels.push_back(nextLevel);
+					}
+					currentLevel++; // 다음 층 계산하기
 				}
-				if (!nextLevel.empty())
-				{
-					levels.push_back(nextLevel);
-				}
-				currentLevel++; // 다음 층 계산하기
+				
 			}
 
 			//  모든 층의 레벨을 계산했으면, 각 노드가 몇 층에 있고, 몇번째에 있는지 기록이 된다.
@@ -190,7 +191,7 @@ public:
 		{
 			screen[y][x] = '0';
 		}
-		void DrawLine(vector<vector<char>>& screen, int x1, int x2, int y1, int y2)
+		void DrawLine(vector<vector<char>>& screen, int x1, int y1, int x2, int y2)
 		{
 			int dx = abs(x2 - x1);
 			int	dy = abs(y2 - y1);
@@ -258,6 +259,7 @@ public:
 				{
 					cout << screen[y][x];
 				}
+				cout << endl;
 			}
 			cout << endl;
 		}
