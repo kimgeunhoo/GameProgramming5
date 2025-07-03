@@ -184,7 +184,7 @@ public:
 		return maxWeight < currentWeight + addItem.GetWeight();
 	}
 
-	std::vector<ItemW> findBestItem(int targetWeight, std::vector<ItemW>& selectableItems)
+	int findBestItem(int targetWeight, std::vector<ItemW>& selectableItems)
 	{
 		// 현재 아이템의 무게에 새로운 아이템 조합을 가져올 때 그 아이템을 저장할 컨테이너 선언
 
@@ -249,7 +249,7 @@ void InventoryWeightSystem()
 
 int main()
 {
-	//Solve1();
-	//Solve2();
+	Solve1();
+	Solve2();
 	InventoryWeightSystem();
 }
