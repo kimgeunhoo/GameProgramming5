@@ -151,6 +151,7 @@ class ItemW
 	int value;
 public:
 	ItemW(std::string _name, int _weight, int _value) : name(_name), weight(_weight), value(_value) {}
+
 	int GetWeight() const { return weight; }
 	int GetValue() const { return value; }
 	std::string GetName() const { return name; }
@@ -184,7 +185,12 @@ public:
 		return maxWeight < currentWeight + addItem.GetWeight();
 	}
 
-	int findBestItem(int targetWeight, std::vector<ItemW>& selectableItems)
+	/*
+		1. 선택한 아이템 들 중에서 가장 큰 가치, 실제로 선택한 아이템들 (자료구조)
+		-> 반환값을 pair< T1, T2 >
+	*/
+
+	std::pair<int, std::vector<ItemW>> findBestItem(int targetWeight, std::vector<ItemW>& selectableItems)
 	{
 		// 현재 아이템의 무게에 새로운 아이템 조합을 가져올 때 그 아이템을 저장할 컨테이너 선언
 
@@ -193,23 +199,45 @@ public:
 		// selectableItems 들어있는 무게. weight
 		// selectableItems 들어있는 가치. value
 
+		std::vector<std::vector<bool>> selected(selectableItems.size(), std::vector<bool>(targetWeight + 1, false));
+
 		for (int i = 0; i < selectableItems.size(); i++)
 		{
 			int weight = selectableItems[i].GetWeight();
 			int value = selectableItems[i].GetValue();
-
 			for (int w = targetWeight; w >= weight; w--)
 			{
 				/*
 					해당 코드 구현
 				*/
+
+				if (dp[w-weight] + value > dp[w])	// 새로 들어온 아이템 + 기존 무게 전체무게보다 클 때만
+				{
+					dp[w] = dp[w - weight] + value;
+					selected[i][w] = true;
+				}
+				
+
 			}
 		}
 
 		// 계산한 최적의 조합을 역산해서 다시 vector 저장하는 코드
 		// while(weight - 무게) 
 
-		return dp[targetWeight];
+		std::vector<ItemW> bestItems;
+		int w = targetWeight;
+
+		for (int i = selectableItems.size() - 1; i >= 0 && w > 0; i--)
+		{
+			if (selected[i][w])
+			{
+				bestItems.push_back(selectableItems[i]);
+				w -= selectableItems[i].GetWeight();
+			}
+		}
+
+
+		return std::make_pair(dp[targetWeight], bestItems);
 
 	}
 
@@ -230,11 +258,33 @@ void InventoryWeightSystem()
 	ItemW D("D", 5, 11);
 
 	std::vector<ItemW> selectableTable{ A, B, C, D };
-	std::cout << "주어진 아이템의 최대 가치 : " << inventory.findBestItem(7, selectableTable) << std::endl;
 
-	inventory.AddItem(A);
-	inventory.AddItem(B);
+	std::pair<int,std::vector<ItemW>> bestItems = inventory.findBestItem(7, selectableTable);
+
+	std::cout << "주어진 아이템의 최대 가치 : " << bestItems.first << std::endl;
+	std::vector<ItemW> ItemC = bestItems.second;
+
+
+	int i = 0;
+
+	// 인벤토리에 아이템을 넣는 코드를 최선의 아이템을 인벤토리에 추가하도록 수정해보기
+	/*inventory.AddItem(A);
+	inventory.AddItem(B);*/
+
+	for (auto& item : ItemC)
+	{
+		i++;
+		std::cout << i << "번째 아이템 이름 : " << item.GetName() 
+			<< ", 무게 : " << item.GetWeight() 
+			<< ", 가치 : " << item.GetValue() << std::endl;
+		// 유저가 허락했을 때 실행하시오 if ( 유저 입력 코드 )
+		inventory.AddItem(item);
+	}
+
+	/*std::cout << "주어진 아이템의 최대 가치 : " << 
+		inventory.findBestItem(7, selectableTable) << std::endl;*/
 	
+
 	int index = 0;
 
 	for (auto& item : inventory.GetInventory())
